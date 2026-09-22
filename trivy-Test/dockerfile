@@ -1,0 +1,17 @@
+# FICHIER DE TEST - mauvaises pratiques volontaires (misconfigurations + secrets factices)
+FROM ubuntu:16.04
+
+ENV DB_PASSWORD=SuperSecret123!
+ENV AWS_ACCESS_KEY_ID=AKIAQWERTYUIOP123456
+ENV AWS_SECRET_ACCESS_KEY=k3Jf9sLmQ2xZpR7vT1uWyB8nCdE4gHaXoIiPqNrS
+ENV GITHUB_TOKEN=ghp_aB3dE5fG7hJ9kL1mN3pQ5rS7tU9vW1xY3zA5
+
+RUN apt-get update && apt-get install -y curl openssh-server sudo
+RUN curl -sSL http://example.com/install.sh | bash
+ADD http://example.com/app.tar.gz /app/
+COPY . /app
+RUN chmod -R 777 /app
+
+EXPOSE 22
+# Pas de HEALTHCHECK et exécution en root (pas d'instruction USER)
+CMD ["python", "/app/main.py"]
