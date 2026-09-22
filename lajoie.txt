@@ -1,1 +1,2 @@
 Dernier test fonctionnelle
+Oui, ca marche dans les 2 sens
